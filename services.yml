@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:13
+    environment :
+      POSTGRES USER: airflow
+      POSTGRES PASSWORD: airflow
+      POSTGRES DB: airflow
+    volumes :
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+    docker run -it --name ny_postgres\
+    -e POSTGRES_USER="root" \
+    -e POSTGRES_PASSWORD="root" \
+    -e POSTGRES_DB="ny_taxi" \
+    -p 5432:5432 \
+    -v c:/github/zoomcamp-data-engineering/docker-postgres/ny_taxi_postgres_data:/var/lib/postgresql/data \
+    postgres:13

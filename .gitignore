@@ -161,3 +161,4 @@ cython_debug/
 
 ny_taxi_postgres_data
 codealike.json
+yellow_tripdata_2021-01.csv

@@ -1,0 +1,54 @@
+services:
+  postgresdb:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ny_taxi
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    ports: 
+      - "5432:5432"
+    restart: always
+    networks:
+      - pg-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8080:80"
+    networks:
+      - pg-network
+
+  ingesting_data:
+    build: .
+    command: >
+      python ingesting_data.py
+      --user root
+      --password root
+      --host postgresdb
+      --port 5432
+      --db ny_taxi
+      --table_name yellow_taxi_data
+      --url https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2019-01.csv
+    environment:
+      USER: root
+      PASSWORD: root
+      HOST: postgresdb
+      PORT: 5432
+      DB: ny_taxi
+      TABLE_NAME: yellow_taxi_data
+      URL: https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2019-01.csv
+    depends_on:
+      - postgresdb
+    networks:
+      - pg-network
+
+volumes:
+  postgres-db-volume:
+
+networks:
+  pg-network:

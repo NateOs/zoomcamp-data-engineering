@@ -27,7 +27,7 @@ def main(params):
     if not database_exists(engine.url):
         create_database(engine.url)
 
-    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, compression='gzip')
+    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000)
     df = next(df_iter)
 
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)

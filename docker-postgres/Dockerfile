@@ -1,12 +1,12 @@
 FROM python:3.9.1
 
 RUN apt-get install wget
-RUN pip install pandas sqlalchemy psycopg2 requests
+RUN pip install pandas sqlalchemy psycopg2 requests sqlalchemy_utils
 
 WORKDIR /app
 COPY . /app
 
-ENTRYPOINT ["python", "ingesting_data.py"]
+CMD ["python", "ingesting_data.py"]
 
   # python ingesting_data.py \
     #     --user root \

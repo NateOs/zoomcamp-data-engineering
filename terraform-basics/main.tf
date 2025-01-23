@@ -1,12 +1,12 @@
 provider "google" {
-	project = "scenic-healer-416216"
-	region  = "us-central1"
+	project = var.project_name
+	region  = var.region
 	credentials = file("/keys/my_creds.json")
 }
 
 resource "google_storage_bucket" "demo-bucket" {
-  name          = "terraterra-bucket"
-  location      = "US"
+  name          = var.gcs_bucket_name
+  location      = var.location
   force_destroy = true
 
   lifecycle_rule {
